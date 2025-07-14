@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jagsharan Preet Singh Khahra - Programmer & CEO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src='https://unpkg.com/gsap@3/dist/gsap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.1/ScrollTrigger.min.js'></script>
+    
+    <style>
+        /* Base styles for light mode */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #111827; /* gray-900 */
+            overflow-x: hidden;
+        }
+        
+        /* Globe Background Styles */
+        .globe-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff;
+        }
+        #globe-3d {
+            display: block;
+            position: absolute;
+        }
+
+        /* Hero Section Styles for Light Mode */
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(99, 255, 123, 0.15) 0%, rgba(255, 255, 255, 0) 60%);
+        }
+        
+        
+        .hero-title-massive {
+            font-size: clamp(30rem, 65vw, 18rem); /* Drastically increased font size */
+            line-height: 1.5;
+            letter-spacing: -0.11em; /* Tighten spacing */
+        }
+
+        /* Text Flip Animation Styles */
+        .subtitle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .flip-container {
+            display: inline-block;
+            position: relative;
+            height: 4rem; 
+            perspective: 600px;
+            vertical-align: top;
+        }
+        .flip-text {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+            color: #16a34a;
+            font-weight: 900;
+            opacity: 0;
+            transform-origin: 50% 50%;
+            transform: rotateX(-90deg);
+            transition: opacity 0.4s, transform 0.4s;
+            white-space: nowrap;
+        }
+        .flip-text.is-visible {
+            position: relative;
+            opacity: 1;
+            transform: rotateX(0deg);
+        }
+        .flip-text.is-hidden {
+            transform: rotateX(90deg);
+        }
+        
+        /* Solid neon color for J and K */
+        .solid-neon {
+            color: #16a34a;
+        }
+        
+        /* UPDATED: Style for transparent PS, size restored */
+        .ps-transparent {
+            color: #FFFFFF;
+            opacity: 0.95;
+        }
+
+        /* Text Scroll Effect Styles */
+        .scroll-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 2.5rem;
+            width: 100%;
+            color: rgba(22, 163, 74, 0.15); /* Faint neon green placeholder */
+            background: linear-gradient(to right, #16a34a, #16a34a) no-repeat; /* Neon green reveal */
+            -webkit-background-clip: text;
+            background-clip: text;
+            background-size: 0% 100%;
+            transition: background-size cubic-bezier(.1,.5,.5,1) 0.5s;
+        }
+
+        /* Wrapper for content to create the white card effect */
+        .content-card-wrapper {
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+        }
+        @media (min-width: 768px) {
+            .content-card-wrapper {
+                padding: 3rem;
+            }
+        }
+
+        /* Prose styles for smaller, readable content */
+        .prose {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #374151; /* gray-700 */
+        }
+        .prose .highlight {
+            color: #16a34a; /* green-700 */
+            font-weight: 600;
+        }
+
+        /* Skill Card Styles for Light Mode */
+        .skill-card {
+            background-color: #f9fafb; /* gray-50 */
+            border: 1px solid #e5e7eb; /* gray-200 */
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px -3px rgba(22, 163, 74, 0.15);
+        }
+        .skill-card h3 {
+            color: #111827;
+        }
+
+        /* Timeline Styles for Light Mode */
+        .timeline {
+            position: relative;
+            border-left: 2px solid #e5e7eb; /* gray-200 */
+            padding-left: 2.5rem;
+        }
+        .timeline-item {
+            margin-bottom: 3rem;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -0.7rem;
+            top: 0.25rem;
+            height: 1.25rem;
+            width: 1.25rem;
+            border-radius: 9999px;
+            background-color: #16a34a;
+            border: 4px solid #ffffff;
+        }
+        .timeline-title {
+            color: #111827;
+        }
+
+        /* Contact Form Styles for Light Mode */
+        .contact-input {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db; /* gray-300 */
+            color: #111827;
+        }
+        .contact-input:focus {
+            --tw-ring-color: #16a34a;
+            border-color: #16a34a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="globe-wrapper">
+        <canvas id="globe-3d"></canvas>
+    </div>
+    <!-- Shaders for Globe -->
+    <script type="x-shader/x-fragment" id="fragment-shader-map">
+        uniform sampler2D u_map_tex; varying float vOpacity; varying vec2 vUv;
+        void main() {
+            vec3 color = texture2D(u_map_tex, vUv).rgb;
+            color.g += 0.5;
+            color -= .2 * length(gl_PointCoord.xy - vec2(.5));
+            float dot = 1. - smoothstep(.38, .4, length(gl_PointCoord.xy - vec2(.5)));
+            if (dot < 0.5) discard;
+            gl_FragColor = vec4(vec3(0.0, color.g, 0.0), dot * vOpacity); /* Neon Green dots */
+        }
+    </script>
+    <script type="x-shader/x-vertex" id="vertex-shader-map">
+        uniform sampler2D u_map_tex; uniform float u_dot_size; uniform float u_time_since_click; uniform vec3 u_pointer;
+        #define PI 3.14159265359
+        varying float vOpacity; varying vec2 vUv;
+        void main() {
+            vUv = uv; float visibility = step(.2, texture2D(u_map_tex, uv).r); gl_PointSize = visibility * u_dot_size;
+            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0); vOpacity = (1. / length(mvPosition.xyz) - .7); vOpacity = clamp(vOpacity, .03, 1.);
+            float t = u_time_since_click - .1; t = max(0., t); float max_amp = .15; float dist = 1. - .5 * length(position - u_pointer);
+            float damping = 1. / (1. + 20. * t); float delta = max_amp * damping * sin(5. * t * (1. + 2. * dist) - PI);
+            delta *= 1. - smoothstep(.8, 1., dist); vec3 pos = position; pos *= (1. + delta);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
+        }
+    </script>
+
+    <header id="home" class="min-h-screen flex flex-col items-center justify-start pt-10 md:pt-12 hero-gradient relative z-10">
+        <div class="text-center w-full flex-grow flex flex-col justify-center">
+            <!-- Centered Hero Title and Subtitle Container -->
+             <a href="#content-start" class="bg-[#16a34a] text-white font-bold py-3 px-8 rounded-full hover:bg-[#15803d] transition duration-300 text-lg self-center">
+                START FROM TOP
+            </a>
+
+            <div class="relative inline-block self-center mb-12">
+                <h1 class="font-extrabold hero-title-massive">
+                    <span class="solid-neon">J</span><span class="ps-transparent">PS</span><span class="solid-neon">K</span>
+                </h1>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
+                    <p class="subtitle-container text-3xl md:text-4xl lg:text-5xl font-medium text-gray-600">
+                        <span class="flip-container">
+                            <span class="flip-text is-visible">I WRITE EVERYTHING</span>
+                            <span class="flip-text">FROM POEMS</span>
+                            <span class="flip-text">TO CODE</span>
+                            <span class="flip-text">DESTINY</span>
+                            <span class="flip-text">AND</span>
+                            <span class="flip-text">LINES OF PALM</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+           
+        </div>
+    </header>
+
+    <main id="content-start" class="relative z-10">
+        <div class="max-w-4xl mx-auto px-4">
+            
+            <!-- About Section -->
+            <section id="about" class="py-20 md:py-32">
+                <h2 class="scroll-text">About Me.</h2>
+                <div class="content-card-wrapper">
+                    <div class="prose max-w-none">
+                        <p>A results-driven and innovative professional with a dual background in <span class="highlight">Electrical Engineering</span> (Degree & Diploma) and advanced computer science. My journey has led me from core engineering principles to mastering the digital landscape of web development, programming, and robust server security.</p>
+                        <p>As a <span class="highlight">Python Expert</span> and versatile programmer, I build efficient, scalable, and secure solutions. My expertise is fortified by a <span class="highlight">CCNA certification</span>, underpinning my capabilities in network infrastructure and security.</p>
+                        <p>Currently, I lead <span class="highlight">Thirtin Inc.</span> as CEO, steering our parent company and its innovative subsidiaries, XDULR and SETx, towards new frontiers in technology.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills" class="py-20 md:py-32">
+                <h2 class="scroll-text">Core Competencies.</h2>
+                <div class="content-card-wrapper">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="skill-card">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-green-500/10 text-green-600 mb-6"><i data-lucide="code-2"></i></div>
+                            <h3 class="text-xl font-bold mb-3">Web Development</h3>
+                            <p class="text-gray-600">Full-stack development with a focus on performance, scalability, and UX.</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-green-500/10 text-green-600 mb-6"><i data-lucide="shield-check"></i></div>
+                            <h3 class="text-xl font-bold mb-3">Server Security</h3>
+                            <p class="text-gray-600">Hardening infrastructure and mitigating threats to ensure data integrity.</p>
+                        </div>
+                        <div class="skill-card">
+                           <div class="flex items-center justify-center h-12 w-12 rounded-full bg-green-500/10 text-green-600 mb-6"><i data-lucide="cpu"></i></div>
+                            <h3 class="text-xl font-bold mb-3">Python Expert</h3>
+                            <p class="text-gray-600">Leveraging Python for backend systems, data analysis, and automation.</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-green-500/10 text-green-600 mb-6"><i data-lucide="zap"></i></div>
+                            <h3 class="text-xl font-bold mb-3">Electrical Engineering</h3>
+                            <p class="text-gray-600">A unique analytical approach to technical challenges, grounded in engineering.</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-green-500/10 text-green-600 mb-6"><i data-lucide="network"></i></div>
+                            <h3 class="text-xl font-bold mb-3">CCNA Certified</h3>
+                            <p class="text-gray-600">Certified expertise in networking, IP connectivity, and security fundamentals.</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-green-500/10 text-green-600 mb-6"><i data-lucide="briefcase"></i></div>
+                            <h3 class="text-xl font-bold mb-3">CEO & Leader</h3>
+                            <p class="text-gray-600">Visionary leadership at Thirtin Inc., driving growth and innovation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section -->
+            <section id="experience" class="py-20 md:py-32">
+                <h2 class="scroll-text">Leadership & Experience.</h2>
+                <div class="content-card-wrapper">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h3 class="text-2xl font-bold timeline-title">CEO & Founder</h3>
+                            <p class="text-lg font-medium text-green-600 mb-2">Thirtin Inc.</p>
+                            <p class="text-gray-600">Leading the parent company of technology ventures XDULR and SETx. Responsible for strategic direction, corporate vision, and driving innovation across the board.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h3 class="text-2xl font-bold timeline-title">Web Developer & Programmer</h3>
+                            <p class="text-lg font-medium text-green-600 mb-2">Freelance & Contract</p>
+                            <p class="text-gray-600">Delivered high-quality web solutions for a variety of clients. Developed custom applications and specialized in Python-based backend systems.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h3 class="text-2xl font-bold timeline-title">Electrical Engineer</h3>
+                            <p class="text-lg font-medium text-green-600 mb-2">Education & Training</p>
+                            <p class="text-gray-600">Completed both a Degree and a Diploma in Electrical Engineering, gaining a deep understanding of hardware, systems, and analytical problem-solving.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Contact Section -->
+            <section id="contact" class="py-20 md:py-32">
+                <h2 class="scroll-text">Let's Connect.</h2>
+                <div class="content-card-wrapper">
+                    <p class="prose text-center max-w-2xl mx-auto mb-10">
+                       I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out.
+                    </p>
+                    <div class="max-w-xl mx-auto">
+                       <!-- The form action is updated to the new email address -->
+                       <form action="mailto:to@jagshrn.com" method="POST" enctype="text/plain">
+                           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                               <input type="text" name="name" placeholder="Your Name" required class="w-full contact-input rounded-md py-3 px-4 outline-none transition ring-2 ring-transparent focus:ring-2">
+                               <input type="email" name="email" placeholder="Your Email" required class="w-full contact-input rounded-md py-3 px-4 outline-none transition ring-2 ring-transparent focus:ring-2">
+                           </div>
+                           <div class="mb-6">
+                               <input type="text" name="subject" placeholder="Subject" required class="w-full contact-input rounded-md py-3 px-4 outline-none transition ring-2 ring-transparent focus:ring-2">
+                           </div>
+                           <div class="mb-6">
+                               <textarea name="message" placeholder="Your Message" rows="5" required class="w-full contact-input rounded-md py-3 px-4 outline-none transition resize-none ring-2 ring-transparent focus:ring-2"></textarea>
+                           </div>
+                           <div class="text-center">
+                               <button type="submit" class="bg-[#16a34a] text-white font-bold py-3 px-10 rounded-full hover:bg-[#15803d] transition duration-300 text-lg">
+                                   Send Message
+                               </button>
+                           </div>
+                       </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="border-t border-gray-200 relative z-10 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-gray-500">
+            <p>&copy; 2024 Jagsharan Preet Singh Khahra. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Text Flip Animation Script
+        const flipContainer = document.querySelector('.flip-container');
+        if (flipContainer) {
+            const flipTexts = flipContainer.querySelectorAll('.flip-text');
+            let currentIndex = 0;
+            const flipInterval = 2500; // Time in ms for each word to display
+
+            setInterval(() => {
+                const currentText = flipTexts[currentIndex];
+                
+                // Find the next index, looping back to 0
+                const nextIndex = (currentIndex + 1) % flipTexts.length;
+                const nextText = flipTexts[nextIndex];
+
+                // Animate out the current text
+                currentText.classList.remove('is-visible');
+                currentText.classList.add('is-hidden');
+
+                // Animate in the next text
+                nextText.classList.remove('is-hidden');
+                nextText.classList.add('is-visible');
+
+                // Update the index for the next iteration
+                currentIndex = nextIndex;
+            }, flipInterval);
+        }
+    </script>
+    
+    <script type="module">
+        // Globe background script
+        import * as THREE from "https://cdn.skypack.dev/three@0.133.1/build/three.module.js";
+        import { OrbitControls } from "https://cdn.skypack.dev/three@0.133.1/examples/jsm/controls/OrbitControls.js";
+
+        const containerEl = document.querySelector(".globe-wrapper");
+        const canvas3D = containerEl.querySelector("#globe-3d");
+        let renderer, scene, camera, controls, globe, mapMaterial, clock;
+        
+        initGlobe();
+
+        function initGlobe() {
+            renderer = new THREE.WebGLRenderer({ canvas: canvas3D, alpha: true });
+            renderer.setPixelRatio(2);
+            scene = new THREE.Scene();
+            camera = new THREE.OrthographicCamera(-1.1, 1.1, 1.1, -1.1, 0, 3);
+            camera.position.z = 1.1;
+            clock = new THREE.Clock();
+            
+            controls = new OrbitControls(camera, canvas3D);
+            controls.enablePan = false;
+            controls.enableZoom = false;
+            controls.enableDamping = true;
+            controls.minPolarAngle = .4 * Math.PI;
+            controls.maxPolarAngle = .4 * Math.PI;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.5;
+
+            new THREE.TextureLoader().load("https://ksenia-k.com/img/earth-map-colored.png", (mapTex) => {
+                mapTex.repeat.set(1, 1);
+                const globeGeometry = new THREE.IcosahedronGeometry(1, 22);
+                mapMaterial = new THREE.ShaderMaterial({
+                    vertexShader: document.getElementById("vertex-shader-map").textContent,
+                    fragmentShader: document.getElementById("fragment-shader-map").textContent,
+                    uniforms: {
+                        u_map_tex: { value: mapTex },
+                        u_dot_size: { value: 0 },
+                        u_pointer: { value: new THREE.Vector3(.0, .0, 1.) },
+                        u_time_since_click: { value: 0 },
+                    },
+                    transparent: true
+                });
+                globe = new THREE.Points(globeGeometry, mapMaterial);
+                scene.add(globe);
+                updateGlobeSize();
+                renderGlobe();
+            });
+        }
+
+        function updateGlobeSize() {
+            const w = containerEl.offsetWidth;
+            const h = containerEl.offsetHeight;
+            renderer.setSize(w, h);
+            const aspect = w / h;
+            camera.left = -1.1 * aspect;
+            camera.right = 1.1 * aspect;
+            camera.updateProjectionMatrix();
+            if (mapMaterial) mapMaterial.uniforms.u_dot_size.value = .04 * h;
+        }
+
+        function renderGlobe() {
+            if (mapMaterial) mapMaterial.uniforms.u_time_since_click.value = clock.getElapsedTime();
+            controls.update();
+            renderer.render(scene, camera);
+            requestAnimationFrame(renderGlobe);
+        }
+        
+        window.addEventListener("resize", updateGlobeSize);
+
+        // Text Scrolling Script
+        gsap.registerPlugin(ScrollTrigger);
+
+        const textElements = gsap.utils.toArray('.scroll-text');
+
+        textElements.forEach(text => {
+            gsap.to(text, {
+                backgroundSize: '100% 100%',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: text,
+                    start: 'center 80%',
+                    end: 'center 20%',
+                    scrub: true,
+                },
+            });
+        });
+
+    </script>
+</body>
+</html>
